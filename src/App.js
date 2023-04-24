@@ -1,24 +1,46 @@
-import logo from './logo.svg';
 import './App.css';
+import { useState } from 'react'; 
+import {evaluate} from 'mathjs'
 
-function App() {
+
+const btnValues = [
+  "C", "+-", "%", "/",
+  7, 8, 9, "*",
+  4, 5, 6, "-",
+  1, 2, 3, "+",
+  0, ".", "=",
+];
+
+
+
+const App = () => {
+
+const [calcScreen, setCalcScreen ] = useState('')
+
+ const calcType = (btnValue) => {
+   if (btnValue === "="){
+      setCalcScreen(evaluate(calcScreen))
+   }
+   else if (btnValue === "C"){
+      setCalcScreen('')
+   }else{
+    setCalcScreen(calcScreen + btnValue)
+   }
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="Calc">
+
+      <span id="screen">{calcScreen}</span>
+
+    <div className="calcBtns">
+      {btnValues.map((currentBtn) => {
+        return <button onClick={() => calcType (currentBtn) }>{currentBtn}</button>
+      })}
     </div>
+    </div>
+
+    
   );
 }
 
